@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/goods_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/detail_back" />
+
+        <ImageView
+            android:id="@+id/goods_cart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/detail_shopcart" />
+
+        <TextView
+            android:id="@+id/goods_cartnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/goods_cart"
+            android:layout_alignTop="@+id/goods_cart"
+            android:background="@color/second_color"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/baise"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:minWidth="15dp"
+            android:minHeight="15dp"
+            android:text="0" />
+
+</RelativeLayout>

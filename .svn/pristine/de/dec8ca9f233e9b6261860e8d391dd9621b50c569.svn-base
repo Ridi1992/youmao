@@ -1,0 +1,114 @@
+package com.lester.youmao.adapter;
+
+import java.util.ArrayList;
+
+import com.bset.tool.Texttool;
+import com.bset.tool.Toast;
+import com.lester.youmao.MainActivity;
+import com.lester.youmao.R;
+import com.lester.youmao.entity.GoodsList;
+import com.lester.youmao.entity.HomeBest;
+import com.lester.youmao.entity.HomeCat;
+import com.lester.youmao.entity.HomePromote;
+import com.lester.youmao.entity.OrderList;
+import com.lester.youmao.entity.ShopGoods;
+import com.lester.youmao.userinfo.mUserInfo;
+import com.sanmi.http.PublicRequest;
+import com.sanmi.loader.ImageLoader;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
+
+public class CheckGoodsAdapter extends BaseAdapter{
+	
+	private ArrayList<OrderList> mList;
+	private LayoutInflater mInflater;
+	private ViewHolder viewHolder;
+	private ImageLoader mImageLoader;
+	private Context c;
+	
+	public CheckGoodsAdapter(Context c ,ArrayList<OrderList> list){
+		mList = list;
+		this.c = c;
+		mInflater = LayoutInflater.from(c);
+		mImageLoader = new ImageLoader(c);
+	}
+
+	@Override
+	public int getCount() {
+		if (mList != null) {
+			return mList.size();
+		}
+		return 0;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		if (mList != null) {
+			return mList.get(position);
+		}
+		return null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		convertView = mInflater.inflate(R.layout.list_item_checkgoods, null);
+		
+		viewHolder = new ViewHolder();
+		
+		viewHolder.CheckgoodsImg = (ImageView) convertView.findViewById(R.id.item_checkgoods_img);
+		LinearLayout.LayoutParams Params = (LinearLayout.LayoutParams) viewHolder.CheckgoodsImg.getLayoutParams();
+		Params.width = MainActivity.width/4;
+		Params.height = MainActivity.width/4;
+		viewHolder.CheckgoodsName = (TextView) convertView.findViewById(R.id.item_checkgoods_name);
+		viewHolder.CheckgoodsAttr = (TextView) convertView.findViewById(R.id.item_checkgoods_attr);
+		viewHolder.CheckgoodsPrice = (TextView) convertView.findViewById(R.id.item_checkgoods_price);
+		viewHolder.CheckgoodsNum = (TextView) convertView.findViewById(R.id.item_checkgoods_num);
+		
+		OrderList orderList = mList.get(position);
+		
+		Texttool.setText(viewHolder.CheckgoodsName, orderList.getGoods_name());
+		Texttool.setText(viewHolder.CheckgoodsPrice, "总价 ： "+orderList.getSubtotal()+"");
+		String attr = "";
+		for (int i = 0; i < orderList.getGoods_attr().size(); i++) {
+			attr = attr + orderList.getGoods_attr().get(i).getValue();
+		}
+		Texttool.setText(viewHolder.CheckgoodsAttr, attr);
+		Texttool.setText(viewHolder.CheckgoodsNum, "数量  "+orderList.getGoods_number()+"");
+		
+		if (orderList.getGoods_thumb() != null) {
+			mImageLoader.DisplayImage(orderList.getGoods_thumb(), viewHolder.CheckgoodsImg);
+		} else
+			viewHolder.CheckgoodsImg.setImageResource(R.drawable.ic_launcher);
+		
+		return convertView;
+	}
+	
+	class ViewHolder{
+		ImageView CheckgoodsImg;
+		TextView CheckgoodsName;
+		TextView CheckgoodsAttr;
+		TextView CheckgoodsPrice;
+		TextView CheckgoodsNum;
+	}
+
+}

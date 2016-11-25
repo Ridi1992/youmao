@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hui_ea"
+    android:orientation="vertical" >
+    
+    <include layout="@layout/top_title"/>
+    
+    <ImageView 
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/about_img"
+        android:layout_marginTop="2dp"
+        />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:text="西安本盟商贸是一家专门从事玩具资源整合的高性价比玩具品牌贸易管理公司。公司由西班牙丹格其利集团北欧区运营总监陈家骏先生和国内知名的职业经理人联合建立。
+   
+拾玩，是本盟商贸旗下的玩具品牌，立志于在中国建立以性价比为突出特征的玩具产业帝国。
+   
+公司凭借多年的玩具实业经营管理经验，强大的产品采购和管理能力，有力的产品市场竞争力，快速在中国的西安、河北、河南、云南等多个地市建立了30余家地市级代理商。产品销量正在快速飙升，品牌知名度直线上升 。"
+        android:textColor="@color/hui_66"
+        android:textSize="14sp" />
+
+</LinearLayout>

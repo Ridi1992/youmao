@@ -1,0 +1,150 @@
+package com.sanmi.http;
+
+public class HttpURL {
+	public static final String URL ="http://b.seotech.com.cn/";
+	public static final String PAGE_NUM ="30";
+	/**
+	 * 登录
+	 */
+	public static final String LOGIN = "ecmobile/?url=user/signin";
+	/**
+	 * 获取验证码
+	 */
+	public static final String GETCODE = "app_api/register.php?act=send";
+	/**
+	 * 注册 
+	 */
+	public static final String REGISTER = "app_api/register.php?act=check";
+	/**
+	 * 轮播图
+	 */
+	public static final String BANNER = "app_api/banner.php";
+	/**
+	 * 首页分类
+	 */
+	public static final String HOME_CAT = "app_api/category.php?act=cat_index";
+	/**
+	 * 首页秒杀
+	 */
+	public static final String HOME_PROMOTE = "app_api/goods_best.php?act=home_best";
+	/**
+	 * 首页推荐
+	 */
+	public static final String HOME_BEST = "app_api/goods_best.php?act=home_best";
+	/**
+	 * 秒杀更多
+	 */
+	public static final String HOME_PROMOTE_MORE = "app_api/goods_best.php?act=goods_best";
+	/**
+	 * 我的积分
+	 */
+	public static final String ME_POINT = "app_api/me.php?act=my_points";
+	/**
+	 * 我的消息
+	 */
+	public static final String ME_NOTICE = "app_api/me.php?act=notice";
+	/**
+	 * 商品分类
+	 */
+	public static final String CAT_ALL = "app_api/category.php?act=cat_all";
+	/**
+	 * 领取优惠券列表
+	 */
+	public static final String COUPON_LIST = "app_api/coupons.php?act=coupons_list";
+	/**
+	 * 领取优惠券
+	 */
+	public static final String COUPON_RECEIVE = "app_api/coupons.php?act=receive";
+	/**
+	 * 反馈
+	 */
+	public static final String ME_FEEDBACK = "app_api/me.php?act=feedback";
+	/**
+	 * 商品列表
+	 */
+	public static final String GOODS_LIST = "app_api/goods.php?act=goods_list";
+	/**
+	 * 商品详情
+	 */
+	public static final String GOODS_DETAIL = "ecmobile/?url=/goods";
+	/**
+	 * 商品图片介绍
+	 */
+	public static final String GOODS_DESC = "ecmobile/?url=/goods/desc";
+	/**
+	 * 加入购物车
+	 */
+	public static final String CART_CREATE = "ecmobile/?url=cart/create";
+	/**
+	 * 购物车列表
+	 */
+	public static final String CART_LIST = "ecmobile/?url=cart/list";
+	/**
+	 *购物车删除
+	 */
+	public static final String CART_DELETE = "ecmobile/?url=cart/delete";
+	/**
+	*	更新购物车
+	*/
+	public static final String CART_UPDATE= "ecmobile/?url=cart/update";
+	/**
+	*我的积分列表
+	*/
+	public static final String POINTS_LIST= "app_api/me.php?act=points_list";
+	/**
+	 *检查订单 
+	 */
+	public static final String CHECK_ORDER = "ecmobile/?url=/flow/checkOrder";
+	/**
+	 * 确认订单
+	 */
+	public static final String FLOW_DONE = "ecmobile/?url=/flow/done";
+	/**
+	 * 收货地址列表
+	 */
+	public static final String ADDRESS_LIST = "ecmobile/?url=/address/list";
+	/**
+	 * 添加收货地址
+	 */
+	public static final String ADDRESS_ADD = "ecmobile/?url=/address/add";
+	/**
+	 * 修改收获地址
+	 */
+	public static final String ADDRESS_UPDATE = "ecmobile/?url=/address/update";//fujian 4  fuzhou53 
+	/**
+	 * 删除收获地址
+	 */
+	public static final String ADDRESS_DELETE = "ecmobile/?url=/address/delete";
+	/**
+	 * 设置默认收获地址
+	 */
+	public static final String ADDRESS_DEFAULT = "ecmobile/?url=/address/setDefault";
+	/**
+	 * 请求区域
+	 */
+	public static final String REGION = "ecmobile/?url=/region";
+	/**
+	 * 积分商城列表
+	 */
+	public static final String JIFEN_SHOP = "app_api/exchange_goods.php?act=exchange_goods_list";
+	/**
+	 * 全部商品搜索
+	 */
+	public static final String SEARCH = "app_api/search_goods.php?act=goods_list";
+	/**
+	 * 修改密码验证
+	 */
+	public static final String PASSWORD_SEND = "app_api/retrieve_password.php?act=send";
+	/**
+	 * 修改密码修改
+	 */
+	public static final String PASSWORD_CHECK = "app_api/retrieve_password.php?act=check";
+	/**
+	 * 我的优惠券列表
+	 */
+	public static final String MYCOUPON_LIST = "app_api/coupons.php?act=mycoupons_list";
+	/**
+	 * 积分商城加入购物车
+	 */
+	public static final String JIFEN_TOCART = "app_api/exchange_goods.php?act=exchange";
+}

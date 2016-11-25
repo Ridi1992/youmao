@@ -1,0 +1,153 @@
+package com.lester.youmao;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.bset.tool.Texttool;
+import com.bset.tool.Toast;
+import com.google.gson.reflect.TypeToken;
+import com.lester.youmao.entity.GetCode;
+import com.sanmi.http.Constants;
+import com.sanmi.http.JsonUtil;
+import com.sanmi.http.PublicRequest;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class RegisterActivity extends Activity implements OnClickListener{
+	
+	private ImageView mBack;
+	private EditText mPhone;
+	private EditText mCode;
+	private EditText mPassWord;
+	private EditText mPassWord2;
+	private TextView mGetCode;
+	private Button mSubmit;
+	
+	private String mobilec;
+	private int mobile_codec;
+	
+	private final String PHONE = "^(((13[0-9])|(15([0-9]))|(18[0-9])|(17[0-9]))\\d{8})|(0\\d{2}-\\d{8})|(0\\d{3}-\\d{7})$";
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.register);
+		
+		initView();
+	}
+
+	private void initView() {
+		mBack = (ImageView) findViewById(R.id.back);
+		mPhone = (EditText) findViewById(R.id.register_tel);
+		mCode = (EditText) findViewById(R.id.register_code);
+		mPassWord = (EditText) findViewById(R.id.register_pwd);
+		mPassWord2 = (EditText) findViewById(R.id.register_pwd2);
+		mGetCode = (TextView) findViewById(R.id.register_getcode);
+		mSubmit = (Button) findViewById(R.id.register_submit);
+		mBack.setOnClickListener(this);
+		mGetCode.setOnClickListener(this);
+		mSubmit.setOnClickListener(this);
+		
+	}
+	
+	Handler mHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			try {
+				switch (msg.what) {
+				case Constants.GETCODE:
+					JSONObject jsonObj = new JSONObject(msg.obj.toString());
+					if (jsonObj.getString("code").equals("1")) {
+						String jsonData = jsonObj.getString("data");
+						GetCode data = JsonUtil.instance().fromJson(jsonData,new TypeToken<GetCode>() {
+								}.getType());
+						if (data != null) {
+							mobilec = data.getMobile();
+							mobile_codec = data.getMobile_code();
+						}
+					} else {
+						Toast.ToastMe(RegisterActivity.this,jsonObj.getString("message"));
+					}
+					break;
+				case Constants.REGISTER:
+					JSONObject jsonObj2 = new JSONObject(msg.obj.toString());
+					if (jsonObj2.getString("code").equals("1")) {
+						Toast.ToastMe(RegisterActivity.this,jsonObj2.getString("message"));
+						finish();
+					} else {
+						Toast.ToastMe(RegisterActivity.this,jsonObj2.getString("message"));
+					}
+					break;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		};
+	};
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.back:
+			this.finish();
+			break;
+		case R.id.register_getcode:
+			PublicRequest http = new PublicRequest(mHandler);
+			String phoneNumber = Texttool.Gettext(RegisterActivity.this, R.id.register_tel);
+			Pattern regex = Pattern.compile(PHONE);
+			Matcher matcher = regex.matcher(phoneNumber);
+			boolean flagPhone = matcher.matches();
+			if (flagPhone) {
+				http.getCode(RegisterActivity.this, phoneNumber);
+			}else {
+				Toast.ToastMe(RegisterActivity.this, "请输入正确手机号");
+			}
+			break;
+		case R.id.register_submit:
+			if (yanzheng()) {
+				getRegister(
+				Texttool.Gettext(RegisterActivity.this,R.id.register_tel),
+				Texttool.Gettext(RegisterActivity.this, R.id.register_code),
+				mobilec, mobile_codec + "", 
+				Texttool.Gettext(RegisterActivity.this, R.id.register_pwd));
+			} else {
+				Toast.ToastMe(RegisterActivity.this, "请完善信息");
+			}
+			break;
+		}
+	}
+	
+	private void getRegister(String mobile, String mobile_code, String mobilec,
+			String mobile_codec, String password) {
+		PublicRequest http = new PublicRequest(mHandler);
+		http.Register(RegisterActivity.this, mobile, mobile_code, mobilec,
+				mobile_codec, password);
+	}
+	
+	public boolean yanzheng() {
+		String phoneNumber = mPhone.getText().toString();
+		String yanZhen = mCode.getText().toString();
+		String mPassword = mPassWord.getText().toString();
+		String mPassword2 = mPassWord2.getText().toString();
+		if (phoneNumber.isEmpty() || yanZhen.isEmpty() || mPassword.isEmpty()|| mPassword2.isEmpty()) {
+			return false;
+		}
+		if (!mPassword.equals(mPassword2)) {
+			Toast.ToastMe(RegisterActivity.this, "两次输入密码不一致");
+			return false;
+		}
+		return true;
+	}
+	
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+     >
+     
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/hui_f123"
+        />
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="3dp" >
+
+            <RadioButton
+                android:id="@+id/rb_main_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:gravity="center_horizontal"
+                android:checked="true"
+                android:drawableTop="@drawable/selector_home"
+                android:paddingTop="5dp"
+                android:text="首页"
+                android:background="#00000000"
+                android:textColor="@drawable/selector_tab"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_main_02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_jifen"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="积分商城"
+                android:background="#00000000"
+                android:textColor="@drawable/selector_tab"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_main_03"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_shopcart"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="购物车"
+                android:background="#00000000"
+                android:textColor="@drawable/selector_tab"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_main_04"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_me"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="我"
+                android:background="#00000000"
+                android:textColor="@drawable/selector_tab"
+                android:textSize="12sp" />
+        </RadioGroup>
+
+</RelativeLayout>

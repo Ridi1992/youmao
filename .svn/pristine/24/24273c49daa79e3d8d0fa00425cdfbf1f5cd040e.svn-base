@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/baise"
+    android:orientation="vertical" >
+
+    <include layout="@layout/top_title" />
+
+    <ListView
+        android:id="@+id/points_lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:background="@color/baise"
+        android:divider="@color/hui_ea"
+        android:dividerHeight="1px"
+        android:listSelector="@null"
+        android:scrollbars="none" >
+    </ListView>
+
+</LinearLayout>

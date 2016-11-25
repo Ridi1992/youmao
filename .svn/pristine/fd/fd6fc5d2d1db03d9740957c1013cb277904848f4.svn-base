@@ -1,0 +1,122 @@
+package com.lester.youmao.shopcart;
+
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.bset.tool.Texttool;
+import com.bset.tool.Toast;
+import com.google.gson.reflect.TypeToken;
+import com.lester.youmao.R;
+import com.lester.youmao.adapter.NoticeAdapter;
+import com.lester.youmao.entity.CheckOrder;
+import com.lester.youmao.entity.Coupon;
+import com.lester.youmao.entity.CouponsList;
+import com.lester.youmao.entity.Notice;
+import com.lester.youmao.entity.OrderList;
+import com.lester.youmao.entity.PaymentList;
+import com.lester.youmao.entity.ShippingList;
+import com.lester.youmao.me.NoticeActivity;
+import com.lester.youmao.userinfo.mUserInfo;
+import com.sanmi.http.Constants;
+import com.sanmi.http.JsonUtil;
+import com.sanmi.http.PublicRequest;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class CheckOrderActivity extends Activity{
+	
+	private TextView mTitle;
+	private ImageView mBack;
+	
+	private TextView mAddressName;
+	private TextView mAddressDetail;
+	private ImageView mAddressMore;
+	
+	private ListView mGoodsListView;
+	private ListView mCouponListView;
+	private TextView mShipping;
+	private TextView mPayment;
+	private ArrayList<OrderList> mGoodsList;
+	private ArrayList<Coupon> mCouponList;
+	private ArrayList<ShippingList> mShippingList;
+	private ArrayList<PaymentList> mPaymentList;
+	
+	private TextView mAllPrice;
+	private Button mFlowDone;
+	
+	private CheckOrder checkOrder;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.order_checkorder);
+		
+		PublicRequest http = new PublicRequest(mHandler);
+		http.CheckOrder(CheckOrderActivity.this, mUserInfo.GetUserInfo(CheckOrderActivity.this).getSession().getSid(), mUserInfo.GetUserInfo(CheckOrderActivity.this).getSession().getUid());
+		
+		initView();
+	}
+	
+	
+	private void initView() {
+		mTitle = (TextView) findViewById(R.id.top_title);
+		mTitle.setText("检查订单");
+		mBack = (ImageView) findViewById(R.id.top_back);
+		mBack.setImageResource(R.drawable.back);
+		mBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
+		mAddressName = (TextView) findViewById(R.id.checkorder_address_name);
+		mAddressDetail = (TextView) findViewById(R.id.checkorder_address_address);
+		mAddressMore = (ImageView) findViewById(R.id.checkorder_moreaddress);
+		mGoodsListView = (ListView) findViewById(R.id.checkorder_goods_lv);
+		mCouponListView = (ListView) findViewById(R.id.checkorder_coupon_lv);
+		mShipping = (TextView) findViewById(R.id.checkorder_shipping);
+		mPayment = (TextView) findViewById(R.id.checkorder_payment);
+		mAllPrice = (TextView) findViewById(R.id.checkorder_allprice);
+		mFlowDone = (Button) findViewById(R.id.checkorder_flowdown);
+	}
+
+
+	Handler mHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			try {
+				switch (msg.what) {
+				case Constants.CHECK_ORDER:
+					JSONObject jsonObj = new JSONObject(msg.obj.toString());
+					//10001 配送方式
+					if (jsonObj.getJSONObject("status").getString("succeed").equals("1")) {
+						String jsonData = jsonObj.getString("data");
+						checkOrder = JsonUtil.instance().fromJson(jsonData,new TypeToken<CheckOrder>() {}.getType());
+						Texttool.setText(mAddressName, checkOrder.getConsignee().getConsignee());
+						Texttool.setText(mAddressDetail, checkOrder.getConsignee().getProvince_name()+checkOrder.getConsignee().getProvince_name()+checkOrder.getConsignee().getDistrict_name()+checkOrder.getConsignee().getAddress());
+						mGoodsList = checkOrder.getGoods_list();
+						mCouponList = checkOrder.getCoupons_list();
+						mShippingList = checkOrder.getShipping_list();
+						mPaymentList = checkOrder.getPayment_list();
+					} else {
+						Toast.ToastMe(CheckOrderActivity.this,jsonObj.getJSONObject("status").getString("error_desc"));
+					}
+					break;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		};
+	};
+
+}

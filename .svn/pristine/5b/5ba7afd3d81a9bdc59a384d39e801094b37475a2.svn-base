@@ -1,0 +1,50 @@
+package com.lester.youmao.me;
+
+import com.lester.youmao.R;
+import com.lester.youmao.Shares;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class TuiGuangActivity extends Activity{
+	
+	private TextView mTitle;
+	private ImageView mBack;
+	
+	private Button mShared;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.me_tuiguang);
+		
+		initView();
+	}
+
+	private void initView() {
+		mTitle = (TextView) findViewById(R.id.top_title);
+		mTitle.setText("一键推广");
+		mBack = (ImageView) findViewById(R.id.top_back);
+		mBack.setImageResource(R.drawable.back);
+		mBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
+		mShared = (Button) findViewById(R.id.shared);
+		mShared.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				Shares.showShareIncome(getApplicationContext());
+			}
+		});
+	}
+
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/baise"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="54dp"
+        android:src="@drawable/coupon" 
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="15dp"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/item_checkcoupon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hui_5a"
+            android:textSize="14sp"
+             />
+
+        <TextView
+            android:id="@+id/item_checkcoupon_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hui_99"
+            android:textSize="12sp"
+            android:visibility="gone"
+             />
+        
+    </LinearLayout>
+
+    <ImageView 
+        android:id="@+id/item_checkcoupon_check"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/gouxuan_false"
+         />
+
+</LinearLayout>

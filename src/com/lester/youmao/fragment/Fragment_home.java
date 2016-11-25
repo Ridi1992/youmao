@@ -1,0 +1,526 @@
+package com.lester.youmao.fragment;
+
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.bset.tool.ListUtil;
+import com.bset.tool.Toast;
+import com.google.gson.reflect.TypeToken;
+import com.lester.youmao.LodingDialog;
+import com.lester.youmao.MainActivity;
+import com.lester.youmao.R;
+import com.lester.youmao.SearchActivity;
+import com.lester.youmao.WebLinkActivity;
+import com.lester.youmao.adapter.BannerAdapter;
+import com.lester.youmao.adapter.HomeCatAdapter;
+import com.lester.youmao.adapter.HomeBestAdapter;
+import com.lester.youmao.entity.Banner;
+import com.lester.youmao.entity.HomeBest;
+import com.lester.youmao.entity.HomeCat;
+import com.lester.youmao.entity.HomePromote;
+import com.lester.youmao.home.CategoryActivity;
+import com.lester.youmao.home.GoodsDetailActivity;
+import com.lester.youmao.home.PromoteMoreActivity;
+import com.sanmi.http.Constants;
+import com.sanmi.http.JsonUtil;
+import com.sanmi.http.PublicRequest;
+import com.sanmi.loader.ImageLoader;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class Fragment_home extends Fragment implements OnItemClickListener{
+
+	private TextView mTitle;
+	private ImageView mRigtht;
+	private LayoutInflater inflaterBanner;
+	private ImageLoader mImageLoader;
+
+	private FrameLayout mFrame;
+	private ViewPager mViewPager;
+	private ArrayList<Banner> BannerList = new ArrayList<Banner>();
+	private View viewBanner;
+	private ImageView mImageView;
+	private ArrayList<View> mViewList = new ArrayList<View>();
+	private ArrayList<String> links = new ArrayList<String>();
+	private BannerAdapter mBannerAdapter;
+	private int emun;// 记录图片数量
+	private ImageView[] indicator_imgs;// 存放引到图片数组
+	private final int AUTO_MSG = 1;  
+	private int index = 0;
+	private int munber = 0;
+	private ImageView imgView;
+	MyThread thread = new MyThread();
+	
+	private GridView mGridViewCat;
+	private ArrayList<HomeCat> mListCat = new ArrayList<HomeCat>();
+	private HomeCatAdapter mCatAdapter;
+	
+	private LinearLayout mlinePromote;
+	private View viewPromote;
+	private ArrayList<HomePromote> mListPromote = new ArrayList<HomePromote>();
+	private LinearLayout mPromoteMore;
+	
+	private ListView mListViewBest;
+	private ArrayList<HomeBest> mListBest = new ArrayList<HomeBest>();
+	private HomeBestAdapter mBestAdapter;
+	
+	private View view;
+	private LodingDialog dialog;
+//	dialog=LodingDialog.DialogFactor(getActivity(), "正在加载", false);
+//	if(dialog!=null){
+//		dialog.dismiss();
+//	}
+	
+	long v = 0;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		super.onCreateView(inflater, container, savedInstanceState);
+		
+		dialog=LodingDialog.DialogFactor(getActivity(), "正在加载", false);
+		
+		PublicRequest http = new PublicRequest(mHandler);
+		http.Banner(getActivity().getApplicationContext());
+		
+		if (mListCat.size() <= 0) {
+			PublicRequest http2 = new PublicRequest(mHandler);
+			http2.HomeCat(getActivity().getApplicationContext());
+		}
+		
+		if (mListPromote.size() <= 0) {
+			PublicRequest http3 = new PublicRequest(mHandler);
+			http3.HomePromote(getActivity().getApplicationContext());
+		}
+		
+		if (mListBest.size() <= 0) {
+			PublicRequest http4 = new PublicRequest(mHandler);
+			http4.HomeBest(getActivity().getApplicationContext());
+		}
+		
+		view = inflater.inflate(R.layout.fragment_home, container, false);
+		
+		inflaterBanner = LayoutInflater.from(getActivity());
+		mImageLoader = new ImageLoader(getActivity());
+
+		initData();
+		initViews(view);
+
+		return view;
+	}
+
+	private void initData() {
+
+	}
+
+	private void initViews(View v) {
+		mTitle = (TextView) v.findViewById(R.id.top_title);
+		mRigtht = (ImageView) v.findViewById(R.id.top_rigth);
+		mTitle.setText("悠贸商城");
+		mRigtht.setImageResource(R.drawable.selete);
+		mRigtht.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getActivity(), SearchActivity.class));
+			}
+		});
+		
+		mFrame = (FrameLayout) v.findViewById(R.id.frame);
+		LinearLayout.LayoutParams lParams_vp = (LinearLayout.LayoutParams) mFrame.getLayoutParams();
+		lParams_vp.width = MainActivity.width;
+		lParams_vp.height = MainActivity.width*2/5;
+		
+		mViewPager = (ViewPager) v.findViewById(R.id.vp);
+
+		mGridViewCat = (GridView) v.findViewById(R.id.home_gridview_cat);
+		if (getActivity() != null) {
+			mCatAdapter = new HomeCatAdapter(getActivity(), mListCat);
+			mGridViewCat.setAdapter(mCatAdapter);
+		}else {
+			PublicRequest http2 = new PublicRequest(mHandler);
+			http2.HomeCat(getActivity().getApplicationContext());
+		}
+		  
+		ListUtil.setGridViewHeightBasedOnChildren2(mGridViewCat, 4, 0);
+		mGridViewCat.setOnItemClickListener(this);
+		
+		mlinePromote = (LinearLayout) v.findViewById(R.id.home_gridview_promote);
+		initPromote();
+		mPromoteMore = (LinearLayout) v.findViewById(R.id.home_promote_more);
+		mPromoteMore.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getActivity(), PromoteMoreActivity.class));
+			}
+		});
+		
+		mListViewBest = (ListView)v.findViewById(R.id.home_listview_best);
+		if (getActivity() != null) {
+			mBestAdapter = new HomeBestAdapter(getActivity(), mListBest);
+			mListViewBest.setAdapter(mBestAdapter);
+			ListUtil.setListViewHeightBasedOnChildren(mListViewBest, 5);
+		}else {
+			PublicRequest http4 = new PublicRequest(mHandler);
+			http4.HomeBest(getActivity().getApplicationContext());
+		}
+		
+		mListViewBest.setOnItemClickListener(this);
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		Intent intent = new Intent();
+		switch (arg0.getId()) {
+		case R.id.home_gridview_cat:
+			switch (arg2) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+				intent.putExtra("cat_id", mListCat.get(arg2).getCat_id());
+				startActivity(intent.setClass(getActivity(), CategoryActivity.class));
+				break;
+			case 7:
+				startActivity(intent.setClass(getActivity(), CategoryActivity.class));
+				break;
+			}
+			break;
+		case R.id.home_listview_best:
+			intent.putExtra("goods_id", mListBest.get(arg2).getGoods_id());
+			intent.setClass(getActivity(), GoodsDetailActivity.class);
+			startActivity(intent);
+			break;
+
+		}
+	}
+	
+	private Handler mHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			try {
+				if(dialog!=null){
+					dialog.dismiss();
+				}
+				switch (msg.what) {
+				case Constants.BANNER:
+					JSONObject jsonObj = new JSONObject(msg.obj.toString());
+					if (jsonObj.getString("code").equals("1")) {
+						String jsonData = jsonObj.getString("data");
+						BannerList = new ArrayList<Banner>();
+						BannerList = JsonUtil.instance().fromJson(jsonData,new TypeToken<ArrayList<Banner>>() {}.getType());
+						if (BannerList != null) {
+							for (int j = 0; j < BannerList.size(); j++) {
+								links.add(jsonObj.getJSONArray("data").getJSONObject(j).getString("link"));
+							}
+							mViewAdapter(BannerList);
+						}
+					} else {
+						Toast.ToastMe(getActivity(),jsonObj.getString("message"));
+					}
+					break;
+				case Constants.HOME_CAT:
+					JSONObject jsonObj1 = new JSONObject(msg.obj.toString());
+					if (jsonObj1.getString("code").equals("1")) {
+						String jsonData = jsonObj1.getString("data");
+						mListCat = JsonUtil.instance().fromJson(jsonData,new TypeToken<ArrayList<HomeCat>>() {}.getType());
+						if (mListCat != null) {
+							HomeCat homeCat = new HomeCat();
+							mListCat.add(homeCat);
+							if (getActivity() != null) {
+								mCatAdapter = new HomeCatAdapter(getActivity(), mListCat);
+								mGridViewCat.setAdapter(mCatAdapter);
+								ListUtil.setGridViewHeightBasedOnChildren2(mGridViewCat, 4, 0);
+							}
+						}
+					} else {
+						Toast.ToastMe(getActivity(),jsonObj1.getString("message"));
+					}
+					break;
+				case Constants.HOME_PROMOTE:
+					JSONObject jsonObj2 = new JSONObject(msg.obj.toString());
+					if (jsonObj2.getString("code").equals("1")) {
+						String jsonData = jsonObj2.getString("data");
+						mListPromote = JsonUtil.instance().fromJson(jsonData,new TypeToken<ArrayList<HomePromote>>() {}.getType());
+						if (mListPromote != null) {
+							mlinePromote.removeAllViews();
+							initPromote();
+						}
+					} else {
+						Toast.ToastMe(getActivity(),jsonObj2.getString("message"));
+					}
+					break;
+				case Constants.HOME_BEST:
+					JSONObject jsonObj3 = new JSONObject(msg.obj.toString());
+					if (jsonObj3.getString("code").equals("1")) {
+						String jsonData = jsonObj3.getString("data");
+						mListBest= JsonUtil.instance().fromJson(jsonData,new TypeToken<ArrayList<HomeBest>>() {}.getType());
+						if (mListBest != null && getActivity() != null) {
+							mBestAdapter = new HomeBestAdapter(getActivity(), mListBest);
+							mListViewBest.setAdapter(mBestAdapter);
+							ListUtil.setListViewHeightBasedOnChildren(mListViewBest, 5);
+						}
+					} else {
+						Toast.ToastMe(getActivity(),jsonObj3.getString("message"));
+					}
+					break;
+				case 404:
+					Toast.ToastMe(getActivity(), msg.obj.toString());
+					break;
+				case AUTO_MSG:
+	            	if (index != mViewList.size()) {
+	            		mViewPager.setCurrentItem(index++);
+					}else{
+						index=0;
+		            	mViewPager.setCurrentItem(index++,false);
+					}
+	                break;  
+				}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		}
+	};
+	
+	private void initPromote(){
+		for (int i = 0; i < mListPromote.size(); i++) {
+			mListPromote.get(i).getGoods_thumb();
+			HomePromote homePromote = mListPromote.get(i);
+			
+			viewPromote = inflaterBanner.inflate(R.layout.grid_item_homepromote, null);
+			LinearLayout.LayoutParams sp_params = new LinearLayout.LayoutParams(
+					MainActivity.width/3, LayoutParams.WRAP_CONTENT);
+			viewPromote.setLayoutParams(sp_params);
+			viewPromote.setOnClickListener(new PromoteClick(i));
+			
+			ImageView mImageView = (ImageView) viewPromote.findViewById(R.id.item_homepromote_img);
+			LinearLayout.LayoutParams Params = (LinearLayout.LayoutParams) mImageView.getLayoutParams();
+			Params.width = MainActivity.width/4;
+			Params.height = MainActivity.width/4;
+			
+			ImageView PromoteImg =  (ImageView) viewPromote.findViewById(R.id.item_homepromote_img);
+			TextView PromoteName =  (TextView) viewPromote.findViewById(R.id.item_homepromote_title);
+			TextView PromotePrice =  (TextView) viewPromote.findViewById(R.id.item_homepromote_price);
+			TextView PromoteShopPrice =  (TextView) viewPromote.findViewById(R.id.item_homepromote_shop);
+			final TextView promote_time2 = (TextView) viewPromote.findViewById(R.id.item_homepromote_shi);
+			
+			final Handler mHandler1 = new Handler();
+			final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd天HH:mm:ss");
+			v = (homePromote.getPromote_end_date()*1000);
+			if (v != 0) {
+				Date date = new Date(v);
+				promote_time2.setText(simpleDateFormat.format(date));
+				new Thread(new Runnable() {
+					long a = v;
+					@Override
+					public void run() {
+						while (a > 0)// 整个倒计时执行的循环
+						{
+							a = a - 1000;
+							mHandler1.post(new Runnable() // 通过它在UI主线程中修改显示的剩余时间
+							{
+								public void run() {
+									Date date = new Date(a);
+									promote_time2.setText(simpleDateFormat.format(date));
+								}
+							});
+							try {
+								Thread.sleep(1000);// 线程休眠一秒钟 这个就是倒计时的间隔时间
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}).start();
+			}else {
+				promote_time2.setText("时间已到");
+			}
+			PromoteName.setText(homePromote.getGoods_name());
+			PromotePrice.setText("￥"+homePromote.getPromote_price());
+			PromoteShopPrice.setText(".￥"+homePromote.getShop_price());
+			if (homePromote.getGoods_thumb() != null) {
+				mImageLoader.DisplayImage(homePromote.getGoods_thumb(), PromoteImg);
+			} else
+				PromoteImg.setImageResource(R.drawable.ic_launcher);
+			mlinePromote.addView(viewPromote);
+		}
+	}
+	
+	private void mViewAdapter(ArrayList<Banner> data) {
+		mViewList = new ArrayList<View>();
+		for (int i = 0; i < data.size(); i++) {
+			data.get(i).getItem_url();
+			viewBanner = inflaterBanner.inflate(R.layout.page1, null);
+			mImageView = (ImageView) viewBanner.findViewById(R.id.home_banner);
+			mImageLoader.DisplayImage(data.get(i).getItem_url(),mImageView);
+			mViewList.add(viewBanner);
+		}
+		mBannerAdapter = new BannerAdapter(mViewList, Fragment_home.this,links);
+		mViewPager.setAdapter(mBannerAdapter);
+		index = 0;
+		if (thread.isAlive()) {
+			
+		}else {
+			thread.start();
+		}
+		emun = data.size();
+		indicator_imgs = new ImageView[emun];
+		initIndicator(view);
+	}
+	
+	private void initIndicator(View view) {
+		View v = view.findViewById(R.id.indicator);// 线性水平布局，负责动态调整导航图标
+		if (getActivity() != null) {
+//			emun = mViewList.size();
+			indicator_imgs = new ImageView[emun];
+			
+			((ViewGroup) v).removeAllViews();
+			for (int i = 0; i < emun; i++) {
+				imgView = new ImageView(getActivity());
+				LinearLayout.LayoutParams params_linear = new LinearLayout.LayoutParams(10, 10);
+				params_linear.setMargins(7, 10, 7, 10);
+				imgView.setLayoutParams(params_linear);
+				indicator_imgs[i] = imgView;
+				if (i == 0) { // 初始化第一个为选中状态
+					indicator_imgs[i].setBackgroundResource(R.drawable.page_focused);
+				} else {
+					indicator_imgs[i].setBackgroundResource(R.drawable.page_unfocused);
+				}
+				((ViewGroup) v).addView(indicator_imgs[i]);
+			}
+		}
+			mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+				@Override
+				public void onPageSelected(int arg0) {
+					// 改变所有导航的背景图片为：未选中
+					for (int i = 0; i < indicator_imgs.length; i++) {
+						if (indicator_imgs[i] == null) {
+							
+						}else {
+							indicator_imgs[i].setBackgroundResource(R.drawable.page_unfocused);
+						}
+						munber = index;
+						index=arg0;
+					}
+					// 改变当前背景图片为：选中
+						try {
+							indicator_imgs[arg0].setBackgroundResource(R.drawable.page_focused);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				}
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
+				}
+				@Override
+				public void onPageScrollStateChanged(int arg0) {
+				}
+			});
+	}
+	
+	public void ToGoodsDetail(View view) {
+		view.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (links != null && links.size() >0) {
+					Log.e("ddddd", "aaaaaaaaaa1");
+					if(links.get(munber).length()>3){
+						String id = links.get(munber).substring(0, 3);
+						if (id.equals("id=") ) {
+							Log.e("ddddd", "aaaaaaaaaa2");
+							Intent intent = new Intent();
+							intent.putExtra("goods_id", links.get(munber).substring(3, links.get(munber).length()));
+							intent.setClass(getActivity(), GoodsDetailActivity.class);
+							getActivity().startActivity(intent); 
+						}else if (id.equals("htt")) {
+							Log.e("ddddd", "aaaaaaaaaa3");
+							Intent intent = new Intent();
+							intent.putExtra("web", links.get(munber));
+							intent.setClass(getActivity(), WebLinkActivity.class);
+							getActivity().startActivity(intent);
+						}
+					}
+				}else {
+					Log.e("ddddd", "aaaaaaaaaa4");
+				}
+				
+			}
+		});
+	}
+	
+	private Boolean ISOK=true;
+	@Override
+	public void onPause() {
+		super.onPause();
+		ISOK=false;
+	}
+	@Override
+	public void onResume() {
+		super.onResume();
+		ISOK=true;
+	}
+		
+	class MyThread extends Thread{
+	  	   public void run(){
+	  	   //你要实现的代码   
+	 			for(int i=0;i<1;i=0 ){
+	 				try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO 自动生成的 catch 块
+						e.printStackTrace();
+					}  //线程休息
+	 				if(ISOK){
+			       			Message message = new Message();
+			       			message.what = AUTO_MSG;
+			       			mHandler.sendMessage(message);
+	     					}
+	 					}
+	  	   		}
+	  }
+	
+	class PromoteClick implements OnClickListener{
+
+		int i;
+		
+		public PromoteClick(int i) {
+			this.i = i;
+		}
+		
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent();
+			intent.putExtra("goods_id", mListPromote.get(i).getGoods_id());
+			intent.setClass(getActivity(), GoodsDetailActivity.class);
+			startActivity(intent);
+		}
+		
+	}
+
+}

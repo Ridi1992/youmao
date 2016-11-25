@@ -1,0 +1,132 @@
+package com.sanmi.http;
+/**
+ * @author Best
+ *
+ */
+public interface Constants {
+	
+	/**
+	 * 登录
+	 */
+	public static final int LOGIN = 0x00;
+	/**
+	 * 注册 
+	 */
+	public static final int REGISTER = 0x01;
+	/**
+	 * 获取验证码
+	 */
+	public static final int GETCODE = 0x02;
+	/**
+	 * 轮播图
+	 */
+	public static final int BANNER = 0x03;
+	/**
+	 * 首页分类
+	 */
+	public static final int HOME_CAT = 0x04;
+	/**
+	 * 首页秒杀
+	 */
+	public static final int HOME_PROMOTE = 0x05;
+	/**
+	 * 首页推荐
+	 */
+	public static final int HOME_BEST = 0x06;
+	/**
+	 * 秒杀更多
+	 */
+	public static final int HOME_PROMOTE_MORE = 0x07;
+	/**
+	 * 我的积分
+	 */
+	public static final int ME_POINT = 0x08;
+	/**
+	 * 我的消息
+	 */
+	public static final int ME_NOTICE = 0x09;
+	/**
+	 * 商品分类
+	 */
+	public static final int CAT_ALL = 0x0a;
+	/**
+	 * 领取优惠券列表
+	 */
+	public static final int COUPON_LIST = 0x0b;
+	/**
+	 * 领取优惠券
+	 */
+	public static final int COUPON_RECEIVE = 0x0c;
+	/**
+	 * 反馈
+	 */
+	public static final int ME_FEEDBACK = 0x0d;
+	/**
+	 * 商品列表
+	 */
+	public static final int GOODS_LIST = 0x0e;
+	/**
+	 * 商品详情
+	 */
+	public static final int GOODS_DETAIL = 0x0f;
+	/**
+	 * 商品图片介绍
+	 */
+	public static final int GOODS_DESC = 0x10;
+	/**
+	 * 加入购物车
+	 */
+	public static final int CART_CREATE = 0x11;
+	/**
+	 * 购物车列表
+	 */
+	public static final int CART_LIST = 0x12;
+	/**
+	 *购物车删除
+	 */
+	public static final int CART_DELETE = 0x13;
+	/**
+	*	更新购物车
+	*/
+	public static final int CART_UPDATE = 0x14;
+	/**
+	*	我的积分列表
+	*/
+	public static final int POINTS_LIST = 0x15;
+	/**
+	 *检查订单 
+	 */
+	public static final int CHECK_ORDER = 0x16;
+	/**
+	 * 确认订单
+	 */
+	public static final int FLOW_DONE = 0x17;
+	/**
+	 * 收货地址列表
+	 */
+	public static final int ADDRESS_LIST = 0x18;
+	/**
+	 * 添加收货地址
+	 */
+	public static final int ADDRESS_ADD = 0x19;
+	/**
+	 * 修改收获地址
+	 */
+	public static final int ADDRESS_UPDATE = 0x1a;//fujian 14  fuzhou53 
+	/**
+	 * 删除收获地址
+	 */
+	public static final int ADDRESS_DELETE = 0x1b;
+	/**
+	 * 设置默认收获地址
+	 */
+	public static final int ADDRESS_DEFAULT = 0x1c;
+	/**
+	 * 请求区域
+	 */
+	public static final int REGION = 0x1d;
+	/**
+	 * 积分商城列表
+	 */
+	public static final int JIFEN_SHOP = 0x1e;
+}

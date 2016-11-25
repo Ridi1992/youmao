@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:background="@color/main_color"
+         >
+        
+        <ImageView
+            android:id="@+id/top_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+             />
+
+        <EditText 
+            android:id="@+id/top_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="4dp"
+            android:hint="搜索"
+            android:gravity="left"
+            android:textColorHint="@color/hui_ea"
+            android:background="@drawable/bg_yuanjiao_bai"
+            android:textColor="@color/hui_33"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/top_rigth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/baise"
+            android:text="搜索"
+            android:textSize="14sp"
+            android:background="@drawable/bg_yuanjiao_touming"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

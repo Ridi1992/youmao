@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hui_ea"
+    android:orientation="vertical" >
+
+    <include layout="@layout/top_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/baise"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="用户名:"
+                android:textColor="@color/hui_66"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/fankui_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:textColor="@color/hui_66"
+                android:textSize="14sp"                
+                android:background="@color/baise"
+                android:gravity="center_vertical"
+                android:padding="10dp" />
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/baise"
+            android:gravity="center_vertical" 
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:text="电    话:"
+                android:textColor="@color/hui_66"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/fankui_tel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/baise"
+                android:gravity="center_vertical"
+                android:textColor="@color/hui_66"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:padding="10dp" />
+            
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/fankui_content"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:textColor="@color/hui_66"
+            android:textSize="14sp"
+            android:background="@color/baise"
+            android:gravity="top" />
+        
+        <Button 
+            android:id="@+id/fankui_submit"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@color/second_color"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp"
+	        android:layout_marginTop="30dp"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
+	        android:text="提交"
+	        android:textColor="@color/baise"
+	        android:textSize="15sp"
+        	/>
+        
+        <TextView 
+            android:id="@+id/fankui_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hui_99"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            />
+        
+    </LinearLayout>
+    
+</LinearLayout>

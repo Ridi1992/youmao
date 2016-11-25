@@ -1,0 +1,24 @@
+package com.lester.youmao.entity;
+
+public class Banner {
+	
+	private String item_url;
+	private String link;
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getItem_url() {
+		return item_url;
+	}
+
+	public void setItem_url(String item_url) {
+		this.item_url = item_url;
+	}
+
+}

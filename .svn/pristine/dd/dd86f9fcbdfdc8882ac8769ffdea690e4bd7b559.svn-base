@@ -1,0 +1,39 @@
+package com.lester.youmao.me;
+
+import com.lester.youmao.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class AboutActivity extends Activity{
+	
+	private TextView mTitle;
+	private ImageView mBack;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.me_about);
+		
+		initView();
+	}
+
+	private void initView() {
+		mTitle = (TextView) findViewById(R.id.top_title);
+		mTitle.setText("关于我们");
+		mBack = (ImageView) findViewById(R.id.top_back);
+		mBack.setImageResource(R.drawable.back);
+		mBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+	}
+	
+}

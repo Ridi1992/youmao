@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_cart_line"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/item_homebest_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_homebest_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/hui_33"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/item_homebest_brief"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textColor="@color/hui_66"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/item_homebest_shop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:textSize="11sp"
+                android:textColor="@color/second_color" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal" >
+
+                <TextView
+                    android:id="@+id/item_homebest_market"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textColor="@color/yuanjia" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="2px"
+                    android:layout_alignLeft="@+id/item_homebest_market"
+                    android:layout_alignRight="@+id/item_homebest_market"
+                    android:layout_centerVertical="true"
+                    android:background="@color/hui_99" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/item_homebest_salsenum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textSize="11sp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/yuanjia" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

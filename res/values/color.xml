@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="main_color">#404952</color>
+    <color name="second_color">#AA381E</color>
+    <color name="baise">#ffffff</color>
+    <color name="heise">#000000</color>
+    <color name="hui_33">#333333</color>
+    <color name="hui_3e">#3e3e3e</color>
+    <color name="yuanjia">#8a939a</color>
+    <color name="hui_66">#666666</color>
+    <color name="hui_f123">#f1f2f3</color>
+    <color name="hui_77">#777777</color>
+    <color name="hui_99">#999999</color>
+    <color name="hui_ea">#eaeaea</color>
+    <color name="hui_5a">#5a5a5a</color>
+    <color name="zhezhao">#40000000</color>
+    <color name="touming">#00000000</color>
+    <color name="navpage">#FFE1E8EB</color>
+
+</resources>

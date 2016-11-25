@@ -1,0 +1,229 @@
+package com.lester.youmao.home;
+
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.bset.tool.ListUtil;
+import com.bset.tool.Toast;
+import com.google.gson.reflect.TypeToken;
+import com.lester.youmao.MainActivity;
+import com.lester.youmao.R;
+import com.lester.youmao.adapter.HomeBestAdapter;
+import com.lester.youmao.adapter.HomePromoteAdapter;
+import com.lester.youmao.entity.HomePromote;
+import com.sanmi.http.Constants;
+import com.sanmi.http.JsonUtil;
+import com.sanmi.http.PublicRequest;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class PromoteMoreActivity extends Activity implements OnItemClickListener{
+	
+	private TextView mTitle;
+	private ImageView mBack;
+	
+	private GridView mGridView;
+	private HomePromoteAdapter mAdapter;
+	private ArrayList<HomePromote> mList;
+	
+	private Timer timer = new Timer();
+	private TimerTask timerTask;
+	
+	private TextView promote_time2;
+	private TextView promote_time3;
+	private TextView promote_time4;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.promote_more);
+		
+		PublicRequest http = new PublicRequest(mHandler);
+		http.HomePromoteMore(PromoteMoreActivity.this);
+		
+		initView();
+	}
+
+	private void initView() {
+		mTitle = (TextView) findViewById(R.id.top_title);
+		mTitle.setText("限时秒杀");
+		mBack = (ImageView) findViewById(R.id.top_back);
+		mBack.setImageResource(R.drawable.back);
+		mBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
+		ImageView mImageView = (ImageView) findViewById(R.id.promote_more_img);
+		LinearLayout.LayoutParams Params = (LinearLayout.LayoutParams) mImageView.getLayoutParams();
+		Params.width = MainActivity.width;
+		Params.height = MainActivity.width*2/5;
+		
+		mGridView = (GridView) findViewById(R.id.promote_more_grid);
+		mAdapter = new HomePromoteAdapter(PromoteMoreActivity.this, mList);
+		mGridView.setAdapter(mAdapter);
+		mGridView.setOnItemClickListener(this);
+		
+//		timerTask = new TimerTask() {
+//			 
+//			@Override
+//			public void run() {
+//			Message message = Message.obtain();
+//			message.what = 1000;
+//			mHandler.sendMessage(message);
+//			}
+//			};
+//			timer.schedule(timerTask, 1000,1000);
+	}
+	
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		Intent intent = new Intent();
+		intent.putExtra("goods_id", mList.get(arg2).getGoods_id());
+		intent.setClass(PromoteMoreActivity.this, GoodsDetailActivity.class);
+		startActivity(intent);
+		
+	}
+	
+	Handler mHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			try {
+				switch (msg.what) {
+				case Constants.HOME_PROMOTE_MORE:
+					JSONObject jsonObj = new JSONObject(msg.obj.toString());
+					if (jsonObj.getString("code").equals("1")) {
+						String jsonData = jsonObj.getString("data");
+						mList = JsonUtil.instance().fromJson(jsonData,new TypeToken<ArrayList<HomePromote>>() {}.getType());
+						if (mList != null) {
+							mAdapter = new HomePromoteAdapter(PromoteMoreActivity.this, mList);
+							mGridView.setAdapter(mAdapter);
+							timerTask = new TimerTask() {
+								 
+								@Override
+								public void run() {
+								Message message = Message.obtain();
+								message.what = 1000;
+								mHandler.sendMessage(message);
+								}
+								};
+								timer.schedule(timerTask, 1000,1000);
+//							mAdapter.start();
+//								try {//获取活动当前时间：nowtime 与 结束时间：endtime
+//									int timeOver = mList.get(1).getPromote_end_date();
+//									mHandler1 = new Handler();
+//									TimeCount timeCount = new TimeCount(timeOver);//时间差
+//									Thread thread = new Thread(timeCount);
+//									thread.start();
+//
+//								} catch (Exception e) {
+//								}
+						}
+					} else {
+						Toast.ToastMe(PromoteMoreActivity.this,jsonObj.getString("message"));
+					}
+					break;
+				case 1000:
+						for (int i = 0; i < mList.size(); i++) {
+						mList.get(i).setPromote_end_date(mList.get(i).getPromote_end_date()-1);//这是服务器当前时间，以此时间为基数进行倒时计，因为服务器时间以秒为单位返回，所以我们每隔1秒，把当前服务器时间+1，也可以把结束时间-1
+						mAdapter.notifyDataSetChanged();
+						}
+					}
+			}  catch (JSONException e) {
+				e.printStackTrace();
+			}
+		};
+	};
+	
+	@Override
+	protected void onDestroy() {
+	if (null != timer) {
+	timer.cancel();
+	}
+	super.onDestroy();
+	}
+	
+//	class TimeCount implements Runnable {
+//		private int time;
+//		public TimeCount(int time) {
+//			this.time = time;
+//		}
+//		@Override
+//		public void run() {
+//			while (time > 0)// 整个倒计时执行的循环
+//			{
+//				time--;
+//				mHandler1.post(new Runnable() // 通过它在UI主线程中修改显示的剩余时间
+//						{
+//							public void run() {
+//								// 显示剩余时间
+//								getInterval(time);
+//							}
+//						});
+//				try {
+//					
+//					Thread.sleep(1000);// 线程休眠一秒钟 这个就是倒计时的间隔时间
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * 设定显示文字
+//	 */
+//	public String getInterval(int time) {
+//		String promote_time = "";
+//		if (time >= 0) {
+////			long day = time / (24 * 3600);// 天
+//			long hour = time / 3600;// 小时
+//			long minute = time % 3600 / 60;// 分钟
+//			long second = time % 60;// 秒
+////			promote_time1.setVisibility(View.VISIBLE);
+//			promote_time2.setVisibility(View.VISIBLE);
+//			promote_time3.setVisibility(View.VISIBLE);
+//			promote_time4.setVisibility(View.VISIBLE);
+////			promote_time1.setText(day + "天");// 显示剩余时间（天）
+//			if (hour < 10 && hour >= 0) {
+//				promote_time2.setText("0" + hour);// 显示剩余时间（时）
+//			} else {
+//				promote_time2.setText(hour + "");// 显示剩余时间（时）
+//			}
+//			if (minute < 10 && minute >= 0) {
+//				promote_time3.setText("0" + minute);// 显示剩余时间（分）
+//			} else {
+//				promote_time3.setText(minute + "");// 显示剩余时间（分）
+//			}
+//			if (second < 10 && second >= 0) {
+//				promote_time4.setText("0" + second);// 显示剩余时间
+//			} else {
+//				promote_time4.setText(second + "");// 显示剩余时间(秒)
+//			}
+//
+//		} else {
+//			// promote_time = "已过期";
+//		}
+//		return promote_time;
+//	}
+
+}

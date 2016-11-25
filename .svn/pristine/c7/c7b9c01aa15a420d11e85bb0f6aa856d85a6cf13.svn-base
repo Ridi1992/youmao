@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hui_ea"
+    android:orientation="vertical" >
+
+    <include layout="@layout/top_title" />
+    <ScrollView 
+        android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="请输入手机号" 
+            android:background="@color/baise"/>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:background="@color/baise"
+            android:gravity="center_vertical"
+            >
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ems="10"
+                android:hint="请输入验证码" >
+
+            </EditText>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/selector_cart_btn"
+                android:padding="3dp"
+                android:text="获取验证码"
+                android:textColor="@color/second_color"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+        
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="请输入新密码" 
+            android:layout_marginTop="5dp"
+            android:background="@color/baise"/>
+        
+           <EditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="确认新密码" 
+            android:layout_marginTop="5dp"
+            android:background="@color/baise"/>
+           
+           <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="45dp"
+                android:background="@color/second_color"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:text="确认修改"
+                android:textColor="@color/baise"
+                android:textSize="14sp" />
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
